@@ -23,10 +23,12 @@ const options = {
 
 
   onClose(selectedDates) {
-    if (selectedDates[0] <= options.defaultDate) {
+    if (selectedDates[0].getTime() < Date.now()) {
       Notify.failure('Please choose a date in the future!');
       StartBtnBlock();
       return;
+    } else {
+      counterStartBtnUrl.disabled = false;
     }
     counterStartBtnUrl.removeAttribute('disabled');
     selectedDate = selectedDates[0].getTime();
@@ -49,20 +51,29 @@ function onCounterStart() {
   Notify.success('The countdown has begun.');
   const intervalId = setInterval(() => {
     let preventTimerResult = selectedDate - new Date().getTime();
-    let convertedTimerResult = convertMs(preventTimerResult);
+    const { timerDaysSpan: countdownDays, timerHoursSpan: countdownHours, timerMinutesSpan: countdownMinutes, timerSecondsSpan: countdownSeconds,} = convertMs(preventTimerResult) ;
+    days.textContent = countdownDays;
+    hours.textContent = countdownHours;
+    minutes.textContent = countdownMinutes;
+    seconds.textContent = countdownSeconds;
+    // let convertedTimerResult = convertMs(preventTimerResult);
 
-    urls.timerDaysSpan.textContent = addLeadingZero(
-      String(convertedTimerResult.days)
-    );
-    urls.timerHoursSpan.textContent = addLeadingZero(
-      String(convertedTimerResult.hours)
-    );
-    urls.timerMinutesSpan.textContent = addLeadingZero(
-      String(convertedTimerResult.minutes)
-    );
-    urls.timerSecondsSpan.textContent = addLeadingZero(
-      String(convertedTimerResult.seconds)
-    );
+    // urls.timerDaysSpan.textContent = addLeadingZero(
+    //   String(convertedTimerResult.days)
+    // );
+    // urls.timerHoursSpan.textContent = addLeadingZero(
+    //   String(convertedTimerResult.hours)
+    // );
+    // urls.timerMinutesSpan.textContent = addLeadingZero(
+    //   String(convertedTimerResult.minutes)
+    // );
+    // urls.timerSecondsSpan.textContent = addLeadingZero(
+    //   String(convertedTimerResult.seconds)
+    // );
+
+
+    
+
 
     if (preventTimerResult < 1000) {
       clearInterval(intervalId);
