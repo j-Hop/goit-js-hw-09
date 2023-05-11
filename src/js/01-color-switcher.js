@@ -14,14 +14,23 @@ function getRandomHexColor() {
   refs.btnStart.addEventListener("click", onStartColor);
   refs.btnStop.addEventListener("click", onStopColor);
 
-  function onStartColor(){
-    refs.btnStart.disabled = true;
-    refs.btnStop.disabled = !true;
+  function changeColor(bool) {
+    refs.btnStart.disabled = bool;
+    refs.btnStop.disabled = !bool;
+  }
 
+  function onStartColor() {
+    changeColor(true);
+  
     color = setInterval(() => {
-        refs.body.style.backgroundColor = getRandomHexColor()
+      refs.body.style.backgroundColor = getRandomHexColor();
     }, 1000);
   }
+  function onStopColor() {
+    changeColor(false);
+    clearInterval(color);
+  }
+
 
   function onStopColor() {
     refs.btnStart.disabled = !true;
